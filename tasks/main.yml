@@ -1,2 +1,5 @@
 ---
 # tasks file for ansible-windows-2016-cis-hardening
+- name: Run Account Policy Hardening
+  import_tasks: 1_account_policies.yml
+  when: run_account_policies | bool
