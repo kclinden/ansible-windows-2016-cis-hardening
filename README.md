@@ -1,4 +1,4 @@
-Role Name
+Ansible Windows 2016 CIS Hardening
 =========
 
 This Ansible Role will configure a Windows Server 2016 system to be compliant with the CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark v1.2.0.

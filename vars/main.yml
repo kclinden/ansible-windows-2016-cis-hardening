@@ -1,2 +1,4 @@
 ---
 # vars file for ansible-windows-2016-cis-hardening
+new_admin_name: xadmin
+new_guest_name: xguest
