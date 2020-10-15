@@ -4,6 +4,10 @@
 ##########################
 ##########################
 
+################################
+## 2.2 USER RIGHTS ASSIGNMENT ##
+################################
+
   - name: "2.2.1,CCE-37056-9 | Ensure 'Access Credential Manager as a trusted caller' is set to 'No One'"
     win_user_right:
       name: SeTrustedCredManAccessPrivilege
@@ -94,233 +98,383 @@
     - rule_2.2.9
     when: not is_domain_controller
 
-#   - name: "2.2.8,CCE-35912-5 | Ensure 'Back up files and directories' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeBackupPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.10,CCE-35912-5 | Ensure 'Back up files and directories' is set to 'Administrators'"
+    win_user_right:
+      name: SeBackupPrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.10
 
-#   - name: "2.2.9,CCE-37452-0 | Ensure 'Change the system time' is set to 'Administrators, LOCAL SERVICE'"
-#     win_user_right:
-#       name: SeSystemTimePrivilege
-#       users:
-#       - Administrators
-#       - Local Service
-#       action: set
+  - name: "2.2.11,CCE-37452-0 | Ensure 'Change the system time' is set to 'Administrators, LOCAL SERVICE'"
+    win_user_right:
+      name: SeSystemTimePrivilege
+      users:
+      - Administrators
+      - Local Service
+      action: set
+    tags:
+    - rule_2.2.11
 
-#   - name: "2.2.10,CCE-37700-2 | Ensure 'Change the time zone' is set to 'Administrators, LOCAL SERVICE'"
-#     win_user_right:
-#       name: SeTimeZonePrivilege
-#       users:
-#       - Administrators
-#       - Local Service
-#       action: set
+  - name: "2.2.12,CCE-37700-2 | Ensure 'Change the time zone' is set to 'Administrators, LOCAL SERVICE'"
+    win_user_right:
+      name: SeTimeZonePrivilege
+      users:
+      - Administrators
+      - Local Service
+      action: set
+    tags:
+    - rule_2.2.12
 
-#   - name: "2.2.11,CCE-35821-8 | Ensure 'Create a pagefile' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeCreatePagefilePrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.13,CCE-35821-8 | Ensure 'Create a pagefile' is set to 'Administrators'"
+    win_user_right:
+      name: SeCreatePagefilePrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.13
 
-#   - name: "2.2.12,CCE-36861-3 | Ensure 'Create a token object' is set to 'No One'"
-#     win_user_right:
-#       name: SeCreateTokenPrivilege
-#       users:
-#       action: set
+  - name: "2.2.14,CCE-36861-3 | Ensure 'Create a token object' is set to 'No One'"
+    win_user_right:
+      name: SeCreateTokenPrivilege
+      users:
+      action: set
+    tags:
+    - rule_2.2.14
 
-#   - name: "2.2.13,CCE-37453-8 | Ensure 'Create global objects' is set to 'Administrators, LOCAL SERVICE, NETWORK SERVICE, SERVICE'"
-#     win_user_right:
-#       name: SeCreateGlobalPrivilege
-#       users:
-#       - Administrators
-#       - Local Service
-#       - Network Service
-#       - Service
-#       action: set
+  - name: "2.2.15,CCE-37453-8 | Ensure 'Create global objects' is set to 'Administrators, LOCAL SERVICE, NETWORK SERVICE, SERVICE'"
+    win_user_right:
+      name: SeCreateGlobalPrivilege
+      users:
+      - Administrators
+      - Local Service
+      - Network Service
+      - Service
+      action: set
+    tags:
+    - rule_2.2.15
 
-#   - name: "2.2.14,CCE-36532-0 | Ensure 'Create permanent shared objects' is set to 'No One'"
-#     win_user_right:
-#       name: SeCreatePermanentPrivilege
-#       users:
-#       action: set
+  - name: "2.2.16,CCE-36532-0 | Ensure 'Create permanent shared objects' is set to 'No One'"
+    win_user_right:
+      name: SeCreatePermanentPrivilege
+      users:
+      action: set
+    tags:
+    - rule_2.2.16
 
-#   - name: "2.2.15,CCE-35823-4 | Configure 'Create symbolic links'"
-#     win_user_right:
-#       name: SeCreateSymbolicLinkPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.17,CCE-35823-4 | Ensure 'Create symbolic links' is set to 'Administrators' (DC only)"
+    win_user_right:
+      name: SeCreateSymbolicLinkPrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.17
+    when: is_domain_controller | bool
 
-#   - name: "2.2.16,CCE-37075-9 | Ensure 'Debug programs' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeDebugPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.18,CCE-35823-4 | Ensure 'Create symbolic links' is set to 'Administrators, NT VIRTUAL MACHINE\\Virtual Machines' (MS only)"
+    win_user_right:
+      name: SeCreateSymbolicLinkPrivilege
+      users:
+      - Administrators
+      - NT VIRTUAL MACHINE\Virtual Machines
+      action: set
+    tags:
+    - rule_2.2.18
+    when: not  is_domain_controller 
 
-#     #Limiting hardening to only include the Guests group, since Local Account access will still be needed for non-domain-joined nodes
-#   - name: "2.2.17,CCE-37954-5 | Configure 'Deny access to this computer from the network' [GSA-Guests, Local account]"
-#     win_user_right:
-#       name: SeDenyNetworkLogonRight
-#       users:
-#       - Guests
-#       #- Local Account
-#       action: set
+  - name: "2.2.19,CCE-37075-9 | Ensure 'Debug programs' is set to 'Administrators'"
+    win_user_right:
+      name: SeDebugPrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.19
 
-#   - name: "2.2.18,CCE-36923-1 | Ensure 'Deny log on as a batch job' to include 'Guests'"
-#     win_user_right:
-#       name: SeDenyBatchLogonRight
-#       users:
-#       - Guests
-#       action: set
+  - name: "2.2.20,CCE-37954-5 | Ensure 'Deny access to this computer from the network' to include 'Guests' (DC only)"
+    win_user_right:
+      name: SeDenyNetworkLogonRight
+      users:
+      - Guests
+      action: set
+    tags:
+    - rule_2.2.20
+    when: is_domain_controller | bool
 
-#   - name: "2.2.19,CCE-36877-9 | Ensure 'Deny log on as a service' to include 'Guests'"
-#     win_user_right:
-#       name: SeDenyServiceLogonRight
-#       users:
-#       - Guests
-#       action: set
+  - name: "2.2.21,CCE-37954-5 | Ensure 'Deny access to this computer from the network' to include 'Guests, Local account and member of Administrators group' (MS only)"
+    win_user_right:
+      name: SeDenyNetworkLogonRight
+      users:
+      - Guests
+      - Administrators
+      - Users #may not work?
+      action: set
+    tags:
+    - rule_2.2.21
+    when: not is_domain_controller
 
-#   - name: "2.2.20,CCE-37146-8 | Ensure 'Deny log on locally' to include 'Guests'"
-#     win_user_right:
-#       name: SeDenyInteractiveLogonRight
-#       users:
-#       - Guests
-#       action: set
+  - name: "2.2.22,CCE-36923-1 | Ensure 'Deny log on as a batch job' to include 'Guests'"
+    win_user_right:
+      name: SeDenyBatchLogonRight
+      users:
+      - Guests
+      action: set
+    tags:
+    - rule_2.2.22
 
-#     #Limiting hardening to only include the Guests group, since Local Account access will still be needed for non-domain-joined nodes
-#   - name: "2.2.21,CCE-36867-0 | Ensure 'Deny log on through Remote Desktop Services' to include 'Guests, Local account'"
-#     win_user_right:
-#       name: SeDenyRemoteInteractiveLogonRight
-#       users:
-#       - Guests
-#       #- Local Account
-#       action: set
+  - name: "2.2.23,CCE-36877-9 | Ensure 'Deny log on as a service' to include 'Guests'"
+    win_user_right:
+      name: SeDenyServiceLogonRight
+      users:
+      - Guests
+      action: set
+    tags:
+    - rule_2.2.23
 
-#   - name: "2.2.22,CCE-36860-5 | Configure 'Enable computer and user accounts to be trusted for delegation'"
-#     win_user_right:
-#       name: SeEnableDelegationPrivilege
-#       users:
-#       action: set
+  - name: "2.2.24,CCE-37146-8 | Ensure 'Deny log on locally' to include 'Guests'"
+    win_user_right:
+      name: SeDenyInteractiveLogonRight
+      users:
+      - Guests
+      action: set
+    tags:
+    - rule_2.2.24
 
-#   - name: "2.2.23,CCE-37877-8 | Ensure 'Force shutdown from a remote system' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeRemoteShutdownPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.25,CCE-36867-0 | Ensure 'Deny log on through Remote Desktop Services' to include 'Guests' (DC only)"
+    win_user_right:
+      name: SeDenyRemoteInteractiveLogonRight
+      users:
+      - Guests
+      action: set
+    when: is_domain_controller | bool
+    tags:
+    - rule_2.2.25
 
-#   - name: "2.2.24,CCE-37639-2 | Ensure 'Generate security audits' is set to 'LOCAL SERVICE, NETWORK SERVICE'"
-#     win_user_right:
-#       name: SeAuditPrivilege
-#       users:
-#       - Local Service
-#       - Network Service
-#       action: set
+  - name: "2.2.26,CCE-36867-0 | Ensure 'Deny log on through Remote Desktop Services' is set to 'Guests, Local account' (MS only)"
+    win_user_right:
+      name: SeDenyRemoteInteractiveLogonRight
+      users:
+      - Guests
+      action: set
+    when: not is_domain_controller
+    tags:
+    - rule_2.2.26
 
-#   - name: "2.2.25,CCE-37106-2 | Configure 'Impersonate a client after authentication'"
-#     win_user_right:
-#       name: SeImpersonatePrivilege
-#       users:
-#       - Administrators
-#       - IIS_IUSRS
-#       - Local Service
-#       - Network Service
-#       - Service
-#       action: set
+  - name: "2.2.27,CCE-36860-5 | Ensure 'Enable computer and user accounts to be trusted for delegation' is set to 'Administrators' (DC only)"
+    win_user_right:
+      name: SeEnableDelegationPrivilege
+      users:
+      - Administrators
+      action: set
+    when: is_domain_controller | bool
+    tags:
+    - rule_2.2.27
 
-#   - name: "2.2.26,CCE-38326-5 | Ensure 'Increase scheduling priority' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeIncreaseBasePriorityPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.28,CCE-36860-5 | Ensure 'Enable computer and user accounts to be trusted for delegation' is set to 'No One' (MS only)"
+    win_user_right:
+      name: SeEnableDelegationPrivilege
+      users:
+      action: set
+    when: not is_domain_controller
+    tags:
+    - rule_2.2.28
 
-#   - name: "2.2.27,CCE-36318-4 | Ensure 'Load and unload device drivers' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeLoadDriverPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.29,CCE-37877-8 | Ensure 'Force shutdown from a remote system' is set to 'Administrators'"
+    win_user_right:
+      name: SeRemoteShutdownPrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.29
 
-#   - name: "2.2.28,CCE-36495-0 | Ensure 'Lock pages in memory' is set to 'No One'"
-#     win_user_right:
-#       name: SeLockMemoryPrivilege
-#       users:
-#       action: set
+  - name: "2.2.30,CCE-37639-2 | Ensure 'Generate security audits' is set to 'LOCAL SERVICE, NETWORK SERVICE'"
+    win_user_right:
+      name: SeAuditPrivilege
+      users:
+      - Local Service
+      - Network Service
+      action: set
+    tags:
+    - rule_2.2.30
 
-#   - name: "2.2.30,CCE-35906-7 | Configure 'Manage auditing and security log'"
-#     win_user_right:
-#       name: SeSecurityPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.31,CCE-37106-2 | Ensure 'Impersonate a client after authentication' is set to 'Administrators, LOCAL SERVICE, NETWORK SERVICE, SERVICE' (DC only)"
+    win_user_right:
+      name: SeImpersonatePrivilege
+      users:
+      - Administrators
+      - Local Service
+      - Network Service
+      - Service
+      action: set
+    when: is_domain_controller | bool
+    tags:
+    - rule_2.2.31
 
-#   - name: "2.2.31,CCE-36054-5 | Ensure 'Modify an object label' is set to 'No One'"
-#     win_user_right:
-#       name: SeReLabelPrivilege
-#       users:
-#       action: set
+  # This is not setting IIS Users if system is a Web Server.
+  - name: "2.2.32,CCE-37106-2 | Ensure 'Impersonate a client after authentication' is set to 'Administrators, LOCAL SERVICE, NETWORK SERVICE, SERVICE'"
+    win_user_right:
+      name: SeImpersonatePrivilege
+      users:
+      - Administrators
+      - Local Service
+      - Network Service
+      - Service
+      action: set
+    when: not is_domain_controller
+    tags:
+    - rule_2.2.32
 
-#   - name: "2.2.32,CCE-38113-7 | Ensure 'Modify firmware environment values' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeSystemEnvironmentPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.33,CCE-38326-5 | Ensure 'Increase scheduling priority' is set to 'Administrators'"
+    win_user_right:
+      name: SeIncreaseBasePriorityPrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.33
 
-#   - name: "2.2.33,CCE-36143-6 | Ensure 'Perform volume maintenance tasks' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeManageVolumePrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.34,CCE-36318-4 | Ensure 'Load and unload device drivers' is set to 'Administrators'"
+    win_user_right:
+      name: SeLoadDriverPrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.34
 
-#   - name: "2.2.34,CCE-37131-0 | Ensure 'Profile single process' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeProfileSingleProcessPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.35,CCE-36495-0 | Ensure 'Lock pages in memory' is set to 'No One'"
+    win_user_right:
+      name: SeLockMemoryPrivilege
+      users:
+      action: set
+    tags:
+    - rule_2.2.35
 
-#   - name: "2.2.35,CCE-36052-9 | Ensure 'Profile system performance' is set to 'Administrators, NT SERVICE\\WdiServiceHost'"
-#     win_user_right:
-#       name: SeSystemProfilePrivilege
-#       users:
-#       - Administrators
-#       - NT SERVICE\WdiServiceHost
-#       action: set
+  - name: "2.2.36,CCE-38080-8 | Ensure 'Log on as a batch job' is set to 'Administrators' (DC Only)"
+    win_user_right:
+      name: SeBatchLogonRight
+      users:
+      - Administrators
+      action: set
+    when: is_domain_controller | bool
+    tags:
+    - rule_2.2.36
 
-#   - name: "2.2.36,CCE-37430-6 | Ensure 'Replace a process level token' is set to 'LOCAL SERVICE, NETWORK SERVICE'"
-#     win_user_right:
-#       name: SeAssignPrimaryTokenPrivilege
-#       users:
-#       - LOCAL SERVICE
-#       - NETWORK SERVICE
-#       action: set
+    # Add Exchange Servers if Exchange is running in the environment
+  - name: "2.2.38,CCE-35906-7 | Ensure 'Manage auditing and security log' is set to 'Administrators' (DC Only)"
+    win_user_right:
+      name: SeSecurityPrivilege
+      users:
+      - Administrators
+      #- Exchange Servers
+      action: set
+    when: is_domain_controller | bool
+    tags:
+    - rule_2.2.38
 
-#   - name: "2.2.37,CCE-37613-7 | Ensure 'Restore files and directories' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeRestorePrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.39,CCE-35906-7 | Ensure 'Manage auditing and security log' is set to 'Administrators' (MS only)"
+    win_user_right:
+      name: SeSecurityPrivilege
+      users:
+      - Administrators
+      action: set
+    when: not is_domain_controller
+    tags:
+    - rule_2.2.39
 
-#   - name: "2.2.38,CCE-38328-1 | Ensure 'Shut down the system' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeShutdownPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.40,CCE-36054-5 | Ensure 'Modify an object label' is set to 'No One'"
+    win_user_right:
+      name: SeReLabelPrivilege
+      users:
+      action: set
+    tags:
+    - rule_2.2.40
 
-#   - name: "2.2.40,CCE-38325-7 | Ensure 'Take ownership of files or other objects' is set to 'Administrators'"
-#     win_user_right:
-#       name: SeTakeOwnershipPrivilege
-#       users:
-#       - Administrators
-#       action: set
+  - name: "2.2.41,CCE-38113-7 | Ensure 'Modify firmware environment values' is set to 'Administrators'"
+    win_user_right:
+      name: SeSystemEnvironmentPrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.41
+
+  - name: "2.2.42,CCE-36143-6 | Ensure 'Perform volume maintenance tasks' is set to 'Administrators'"
+    win_user_right:
+      name: SeManageVolumePrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.42
+
+  - name: "2.2.43,CCE-37131-0 | Ensure 'Profile single process' is set to 'Administrators'"
+    win_user_right:
+      name: SeProfileSingleProcessPrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.43
+
+  - name: "2.2.44,CCE-36052-9 | Ensure 'Profile system performance' is set to 'Administrators, NT SERVICE\\WdiServiceHost'"
+    win_user_right:
+      name: SeSystemProfilePrivilege
+      users:
+      - Administrators
+      - NT SERVICE\WdiServiceHost
+      action: set
+    tags:
+    - rule_2.2.44
+
+  - name: "2.2.45,CCE-37430-6 | Ensure 'Replace a process level token' is set to 'LOCAL SERVICE, NETWORK SERVICE'"
+    win_user_right:
+      name: SeAssignPrimaryTokenPrivilege
+      users:
+      - LOCAL SERVICE
+      - NETWORK SERVICE
+      action: set
+    tags:
+    - rule_2.2.45
+
+  - name: "2.2.46,CCE-37613-7 | Ensure 'Restore files and directories' is set to 'Administrators'"
+    win_user_right:
+      name: SeRestorePrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.46
+
+  - name: "2.2.47,CCE-38328-1 | Ensure 'Shut down the system' is set to 'Administrators'"
+    win_user_right:
+      name: SeShutdownPrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.47
+
+  - name: "2.2.48,CCE-36099-0 | Ensure 'Synchronize directory service data' is set to 'No One' (DC only)"
+    win_user_right:
+      name: SeSyncAgentPrivilege
+      users:
+      action: set
+    tags:
+    - rule_2.2.48
+
+  - name: "2.2.49,CCE-38325-7 | Ensure 'Take ownership of files or other objects' is set to 'Administrators'"
+    win_user_right:
+      name: SeTakeOwnershipPrivilege
+      users:
+      - Administrators
+      action: set
+    tags:
+    - rule_2.2.49
 
 # ##########################
 # ##                      ##
