@@ -1,0 +1,4 @@
+---
+# defaults file for ansible-windows-2016-cis-hardening
+run_account_policies: true
+is_domain_controller: false

@@ -1,0 +1,4 @@
+Vagrant.configure("2") do |config|
+    config.vm.define "win2016" do |win2016|
+        win2016.vm.box = "foo"
+end
