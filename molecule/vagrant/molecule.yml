@@ -1,0 +1,45 @@
+---
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+
+lint:
+  name: yamllint
+  options:
+    config-file: .yamllint
+
+platforms:
+  - name: win2016-vagrant
+    box: windows2016
+
+provisioner:
+  name: ansible
+  log: true
+  lint:
+    name: ansible-lint
+  config_options:
+    defaults:
+      remote_tmp: /tmp/.ansible
+      retry_files_enabled: false
+
+scenario:
+  name: vagrant
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    # - idempotence # Current bug with lineinfile module
+    - side_effect
+    - verify
+    - destroy
+
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
+    enabled: false

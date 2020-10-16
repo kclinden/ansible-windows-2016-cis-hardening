@@ -2,3 +2,6 @@
 # vars file for ansible-windows-2016-cis-hardening
 new_admin_name: xadmin
 new_guest_name: xguest
+legal_notice_banner: "This is a legal notice banner"
+legal_notice_caption: "IT LEGAL NOTICE"
+enable_uac: true
